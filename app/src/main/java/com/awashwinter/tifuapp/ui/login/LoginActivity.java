@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.awashwinter.tifuapp.MainActivity;
 import com.awashwinter.tifuapp.R;
+import com.awashwinter.tifuapp.experimental.HomeActivity;
 import com.awashwinter.tifuapp.ui.login.LoginViewModel;
 import com.awashwinter.tifuapp.ui.login.LoginViewModelFactory;
 
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void goToMainAct(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }

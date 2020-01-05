@@ -17,4 +17,13 @@
     <string name="cancel_post">Cancel</string>
     <string name="submit_post">Submit</string>
     <string name="create_your_tifu">Create your tifu</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in_title">Sign in</string>
+    <string name="prompt_password_confirm">Confirm password</string>
+    <string name="sign_up_now">Sign up now</string>
+    <string name="or">OR</string>
+    <string name="invalid_confirm">Passwords must be same</string>
+    <string name="invalid_displayname">Must be 4-10 chars</string>
 </resources>

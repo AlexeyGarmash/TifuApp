@@ -1,6 +1,8 @@
 package com.awashwinter.tifuapp.data;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.awashwinter.tifuapp.base.TifuApp;
 import com.awashwinter.tifuapp.base.Utils;
@@ -29,6 +31,8 @@ public class LoginRepository {
     private OnLoginResultListener onLoginResultListener;
     private OnLogoutResultListener onLogoutResultListener;
 
+    private MutableLiveData<Boolean> isLoggedIn = new MutableLiveData<>();
+
     // private constructor : singleton access
     public LoginRepository() {
         firebaseAuth = TifuApp.getFirebaseAuth();
@@ -37,6 +41,10 @@ public class LoginRepository {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null){
                     //onLogoutResultListener.logoutResult("Logout success");
+                    isLoggedIn.setValue(false);
+                }
+                else {
+                    isLoggedIn.setValue(true);
                 }
             }
         });
@@ -112,4 +120,7 @@ public class LoginRepository {
         this.onLoginResultListener = onLoginResultListener;
     }
 
+    public LiveData<Boolean> getIsLoggedIn() {
+        return isLoggedIn;
+    }
 }

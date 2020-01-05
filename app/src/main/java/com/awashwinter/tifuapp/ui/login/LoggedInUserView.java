@@ -5,7 +5,7 @@ import android.net.Uri;
 /**
  * Class exposing authenticated user details to the UI.
  */
-class LoggedInUserView {
+public class LoggedInUserView {
 
     private Uri avatartUri;
     private String displayName;
@@ -22,7 +22,7 @@ class LoggedInUserView {
         this.avatartUri = avatar;
     }
 
-    String getDisplayName() {
+    public String getDisplayName() {
         return displayName;
     }
 

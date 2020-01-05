@@ -14,6 +14,7 @@ import com.awashwinter.tifuapp.data.OnLoginResultListener;
 import com.awashwinter.tifuapp.data.Result;
 import com.awashwinter.tifuapp.data.model.LoggedInUser;
 import com.awashwinter.tifuapp.R;
+import com.awashwinter.tifuapp.ui.register.RegisterFormState;
 
 import javax.inject.Inject;
 
@@ -21,7 +22,9 @@ public class LoginViewModel extends ViewModel {
 
     private static final String TAG = LoginViewModel.class.getCanonicalName();
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private MutableLiveData<Boolean> userLoggedIn = new MutableLiveData<>();
     @Inject
     LoginRepository loginRepository;
 
@@ -41,11 +44,11 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    LiveData<LoginFormState> getLoginFormState() {
+    public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
 
-    LiveData<LoginResult> getLoginResult() {
+    public LiveData<LoginResult> getLoginResult() {
         return loginResult;
     }
 
@@ -70,20 +73,53 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
+    public void registerDataChanged(String email, String password, String confirm, String displayName){
+        if(!isUserNameValid(email)){
+            registerFormState.setValue(new RegisterFormState(R.string.invalid_username, null, null, null));
+        } else if (!isPasswordValid(password)){
+            registerFormState.setValue(new RegisterFormState(null, R.string.invalid_password, null, null));
+        } else if (!isPasswordConfirmValid(password, confirm)) {
+            registerFormState.setValue(new RegisterFormState(null, null, R.string.invalid_confirm, null));
+        } else if(!isDisplayNameValid(displayName)){
+            registerFormState.setValue(new RegisterFormState(null, null, null, R.string.invalid_displayname));
+        }
+        else {
+            registerFormState.setValue(new RegisterFormState(true));
+        }
+    }
+
+    private boolean isDisplayNameValid(String displayName) {
+        return displayName != null && displayName.trim().length() >= 4 && displayName.trim().length() <= 10;
+    }
+
+    private boolean isPasswordConfirmValid(String password, String confirm) {
+        if(password == null || confirm == null) {
+            return  false;
+        }
+        return password.equals(confirm);
+    }
+
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
         }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
+        return Patterns.EMAIL_ADDRESS.matcher(username).matches();
     }
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+
+
+
+    public LiveData<Boolean> getUserLoggedIn() {
+        return loginRepository.getIsLoggedIn();
+    }
+
+    public LiveData<RegisterFormState> getRegisterFormState() {
+        return registerFormState;
     }
 }

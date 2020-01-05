@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "552041417947",
+    "firebase_url": "https://tifuapp-7ab3a.firebaseio.com",
+    "project_id": "tifuapp-7ab3a",
+    "storage_bucket": "tifuapp-7ab3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552041417947:android:73632350dfd74c908210fe",
+        "android_client_info": {
+          "package_name": "com.awashwinter.tifuapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552041417947-fo1pm2a981j99v64dd59m372b0hrp3el.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.awashwinter.tifuapp",
+            "certificate_hash": "ff2348153c278510c0b9ba548009defee600fac9"
+          }
+        },
+        {
+          "client_id": "552041417947-q65a84ub5fa85jnrjqhqpskghn52fuf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFNapkEP7JznGJMfqjwghZujbsPU_X17I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552041417947-q65a84ub5fa85jnrjqhqpskghn52fuf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

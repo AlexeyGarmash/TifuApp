@@ -3,41 +3,44 @@ package com.awashwinter.tifuapp.experimental.ui.home;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.awashwinter.tifuapp.base.TifuApp;
-import com.awashwinter.tifuapp.base.Utils;
-import com.awashwinter.tifuapp.data.TifuRepository;
 import com.awashwinter.tifuapp.data.model.TifuPost;
+import com.awashwinter.tifuapp.usecases.SortType;
+import com.awashwinter.tifuapp.usecases.UseCasePostActions;
+import com.awashwinter.tifuapp.usecases.UseCaseGetPosts;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
 public class HomeViewModel extends ViewModel {
+
+
 
     public enum NetState {
         START,
         FINISH
     }
 
-    private MutableLiveData<List<TifuPost>> listMutableLiveData = new MutableLiveData<>();
-    private MutableLiveData<NetState> netStateMutableLiveData = new MutableLiveData<>();
-    private FirebaseAuth firebaseAuth;
+
+
 
     @Inject
-    TifuRepository tifuRepository;
+    UseCaseGetPosts useCaseGetPosts;
+    @Inject
+    UseCasePostActions useCasePostActions;
 
 
     public HomeViewModel() {
-        firebaseAuth = TifuApp.getFirebaseAuth();
-        netStateMutableLiveData.setValue(NetState.START);
-        TifuApp.getAppComponent().injectTifuRepository(this);
-        tifuRepository.getData();
-        tifuRepository.setOnDataChangedListener(new TifuRepository.OnDataChangedListener() {
+
+
+        TifuApp.getAppComponent().injectUseCasePosts(this);
+        TifuApp.getAppComponent().injectUseCasePostActions(this);
+        useCaseGetPosts.getPostsAlways();
+        /*tifuRepository.setOnDataChangedListener(new TifuRepository.OnDataChangedListener() {
             @Override
             public void onDataChangeStarted() {
 
@@ -50,27 +53,31 @@ public class HomeViewModel extends ViewModel {
                 netStateMutableLiveData.setValue(NetState.FINISH);
                 listMutableLiveData.setValue(accessedTifuPosts);
             }
-        });
+        });*/
     }
 
     public LiveData<List<TifuPost>> getListMutableLiveData() {
-        return listMutableLiveData;
+        return useCaseGetPosts.getPostsMutableLiveData();
     }
 
     public void addTifu(String title, String content) {
-        tifuRepository.createPost(title, content);
+        useCasePostActions.createTifuPost(title, content);
+    }
+
+    public void applySort(SortType sortType) {
+        useCaseGetPosts.getPostsWithSort(sortType);
     }
 
     public LiveData<NetState> getNetStateMutableLiveData() {
-        return netStateMutableLiveData;
+        return useCaseGetPosts.getNetStateMutableLiveData();
     }
 
     public void setLike(TifuPost post) {
-        tifuRepository.setLikeOrDis(Utils.getUser(Objects.requireNonNull(firebaseAuth.getCurrentUser())), post,"likes");
+        useCasePostActions.setLike(post);
     }
 
     public void setDisLike(TifuPost post) {
-        tifuRepository.setLikeOrDis(Utils.getUser(Objects.requireNonNull(firebaseAuth.getCurrentUser())), post,"dislikes");
+        useCasePostActions.setDislike(post);
     }
 
 

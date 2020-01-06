@@ -42,6 +42,21 @@ public class TifuRepository {
         databaseReference = TifuApp.getDatabase().getReference("posts");
     }
 
+    public void getDataOnce(){
+        tifuPosts = new ArrayList<>();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getListTifus(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void getData(){
         tifuPosts = new ArrayList<>();
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -62,10 +77,10 @@ public class TifuRepository {
         tifuPosts.clear();
         for(DataSnapshot post: dataSnapshot.getChildren()){
             TifuPost tifuPost = post.getValue(TifuPost.class);
-            if(tifuPost.isAccessed())
+            if (tifuPost != null && tifuPost.isAccessed())
                 tifuPosts.add(tifuPost);
         }
-        Collections.sort(tifuPosts);
+        //Collections.sort(tifuPosts);
         onDataChangedListener.onDataChanged(tifuPosts);
     }
 

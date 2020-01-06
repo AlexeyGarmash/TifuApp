@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_sort_black_24dp"
+        app:showAsAction="always"
+        android:title="Sort">
+        <menu>
+        <group
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/sort_date_desc"
+                android:title="Date down" />
+            <item
+                android:id="@+id/sort_date_asc"
+                android:title="Date up" />
+            <item
+                android:id="@+id/sort_like_desc"
+                android:title="Like down" />
+            <item
+                android:id="@+id/sort_like_asc"
+                android:title="Like up" />
+        </group>
+        </menu>
+    </item>
 </menu>

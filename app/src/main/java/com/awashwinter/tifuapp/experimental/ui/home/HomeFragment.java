@@ -7,27 +7,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.awashwinter.tifuapp.MainViewModel;
 import com.awashwinter.tifuapp.R;
 import com.awashwinter.tifuapp.adapters.PostsAdapter;
 import com.awashwinter.tifuapp.adapters.PostsDiffUtilCallback;
 import com.awashwinter.tifuapp.data.model.TifuPost;
+import com.awashwinter.tifuapp.experimental.HomeMainViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private HomeMainViewModel homeMainViewModel;
 
     @BindView(R.id.floatBtnAdd)
     FloatingActionButton floatingActionButton;
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeMainViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(HomeMainViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         return root;
     }
@@ -64,6 +66,9 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         setupRecyclerView();
+        homeMainViewModel.getActionSortMutableLiveData().observe(this, sortType -> {
+            homeViewModel.applySort(sortType);
+        });
         homeViewModel.getListMutableLiveData().observe(this, this::computeDiff);
 
         homeViewModel.getNetStateMutableLiveData().observe(this, netState -> {

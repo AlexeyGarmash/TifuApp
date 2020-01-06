@@ -3,7 +3,6 @@ package com.awashwinter.tifuapp.experimental;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.awashwinter.tifuapp.MainActivity;
 import com.awashwinter.tifuapp.R;
 
 import androidx.lifecycle.ViewModelProviders;
@@ -14,6 +13,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.awashwinter.tifuapp.base.Utils;
 import com.awashwinter.tifuapp.ui.login.LoginActivity;
+import com.awashwinter.tifuapp.usecases.SortType;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -21,7 +21,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,6 +102,28 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.sort_date_desc){
+            homeViewModel.sendSortType(SortType.DATE_DESCENDING);
+            item.setChecked(true);
+        }
+        if(item.getItemId() == R.id.sort_date_asc){
+            homeViewModel.sendSortType(SortType.DATE_ASCENDING);
+            item.setChecked(true);
+        }
+        if(item.getItemId() == R.id.sort_like_desc){
+            homeViewModel.sendSortType(SortType.LIKE_DESCENDING);
+            item.setChecked(true);
+        }
+        if(item.getItemId() == R.id.sort_like_asc){
+            homeViewModel.sendSortType(SortType.LIKE_ASCENDING);
+            item.setChecked(true);
+        }
         return true;
     }
 
